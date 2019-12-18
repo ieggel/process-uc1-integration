@@ -28,13 +28,13 @@ WORKDIR $HOME
 #RUN apt install -y libnccl2=2.5.6-1+cuda10.2 libnccl-dev=2.5.6-1+cuda10.2
 #RUN rm ./"$NCCL_REPO_DEB"
 
-#RUN \
-#	wget https://download.open-mpi.org/release/open-mpi/v4.0/openmpi-4.0.0.tar.gz && \
-#	tar -xzf openmpi-4.0.0.tar.gz && \
-#	cd openmpi-4.0.0 \
-#	./configure --prefix=/usr/local --with-cuda \
-#	make all install && \
-#        ldconfig
+RUN \
+	wget https://download.open-mpi.org/release/open-mpi/v4.0/openmpi-4.0.0.tar.gz && \
+	tar -xzf openmpi-4.0.0.tar.gz && \
+	cd openmpi-4.0.0 && \
+	./configure --prefix=/usr/local --with-cuda && \
+	make all install && \
+    ldconfig
 	
 
 #COPY CODE to /process-uc1-code

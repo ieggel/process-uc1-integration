@@ -17,7 +17,10 @@ RUN apt update && apt install -y \
 	libglib2.0-0 \
 	wget
 
-#wget
+#Upgrade pip (needed for tensorflow 1.15)
+RUN pip install -U pip && rm /usr/bin/pip && ln -s /usr/local/bin/pip /usr/bin/pip
+#Upgrade setuptools (needed for tensorflow 1.15)
+RUN pip install -U setuptools
 
 WORKDIR $HOME
 #Copy nccl repo to home
@@ -34,15 +37,15 @@ RUN \
 	cd openmpi-4.0.0 && \
 	./configure --prefix=/usr/local --with-cuda && \
 	make all install && \
-    ldconfig
+	ldconfig
 	
 
 #COPY CODE to /process-uc1-code
 #WORKDIR /process-uc1-code
 #RUN pip install -r requirements.txt --no-cache-dir
-
-#openmpi-bin
-#libopenmpi-dev
+#RUN HOROVOD_GPU_ALLREDUCE=NCCL pip install --no-cache-dir horovod
 
 
 #Cuda devel image needed because we need header files for OpenMPI compilation
+
+

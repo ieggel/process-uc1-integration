@@ -1,0 +1,18 @@
+# system requirements
+#   openslide
+#   Nvidia CUDA Toolkit
+#   TCL-Tk
+
+opencv-python
+
+# depends on native 'openslide'
+openslide-python
+
+matplotlib
+pillow
+pycurl
+scikit-image
+
+# tensorflow, keras, horovod, h5py, numpy not specified here because already contained in docker image
+
+tflearn

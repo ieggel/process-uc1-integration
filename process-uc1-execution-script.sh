@@ -47,8 +47,8 @@ sudo chmod 600 /etc/davfs2/secrets
 
 #Create target mount dir
 sudo mkdir -p /mnt/lobcder
-
 #Mount lobcder via webdav to target mount dir
+
 sudo mount -t davfs "$WEBDAV_SERVER_URL" /mnt/lobcder
 
 #Build Docker image

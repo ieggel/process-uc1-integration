@@ -15,7 +15,6 @@ ARG H_PIP_REQUIREMENTS=./requirements-adapted.txt
 ARG H_CONFIG_INI=./config-adapted.ini
 
 
-
 # Create symbolic link for python2 pointing to python2.7, because process uc1 scripts makes use of /usr/bin/python2
 RUN ln -s /usr/bin/python2.7 /usr/bin/python2
 
@@ -65,6 +64,7 @@ COPY "$H_CONFIG_INI" etc/config.ini
 
 
 
-# Run process-uc1 patch extraction
+# Run process-uc1 patch extraction with default: process all patients. This CMD can be overriden at runtime.
 #---------------------------
 CMD bin/cnn --config-file etc/config.ini extract
+

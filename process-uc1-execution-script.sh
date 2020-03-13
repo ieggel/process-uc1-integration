@@ -54,8 +54,10 @@ sudo mount -t davfs "$WEBDAV_SERVER_URL" /mnt/lobcder
 #Build Docker image
 docker build -t medgift/process-uc1-patch-extraction ./docker
 
-#--LAUNCH DOCKER CONTAINER
-docker run --rm -v /mnt/lobcder/snedtn/camelyon17:/process-uc1/data/camelyon17 -v  /mnt/lobcder/snedtn/uc1-results:/process-uc1/results medgift/process-uc1-patch-extraction
+#--LAUNCH DOCKER CONTAINER, OVERRIDE DEFAULT COMMAND BECAUSE WE WANT TO PROVIDE SPECIFIC PATIENTS
+patients=$(ls /mnt/lobcder/snedtn/camelyon17/lesion_annotations | xargs -I '{}' basename '{}' .xml | tr '\n' ' ')
+echo "Running patch extract for following patients: $patients"
+docker run --rm -v /mnt/lobcder/snedtn/camelyon17:/process-uc1/data/camelyon17 -v  /mnt/lobcder/snedtn/uc1-results:/process-uc1/results -v /home/ivan/code/PROCESS/PROCESS_UC1:/process-uc1/code/PROCESS_UC1 medgift/process-uc1-patch-extraction  bin/cnn --config-file etc/config.ini extract --patients $patients
 #-------------------------
 
 #Unmount target mount dir (write cache content)

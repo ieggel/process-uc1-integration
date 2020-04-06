@@ -50,8 +50,8 @@ docker build -t medgift/process-uc1-patch-extraction ./docker
 #--LAUNCH DOCKER CONTAINER, OVERRIDE DEFAULT COMMAND BECAUSE WE WANT TO PROVIDE SPECIFIC PATIENTS
 patients=$(ls $target_mnt_dir/camelyon17/lesion_annotations | xargs -I '{}' basename '{}' .xml | tr '\n' ' ')
 echo "Running patch extract for following patients: $patients"
-#docker run --rm -v /$target_mnt_dir/camelyon17:/process-uc1/data/camelyon17 -v  $target_mnt_dir/uc1-results:/process-uc1/results medgift/process-uc1-patch-extraction  bin/cnn --config-file etc/config.ini extract --patients $patients
-docker run --rm -v /$target_mnt_dir/camelyon17:/process-uc1/data/camelyon17 -v  $target_mnt_dir/uc1-results:/process-uc1/results medgift/process-uc1-patch-extraction  /bin/bash
+#docker run --rm -v $target_mnt_dir/camelyon17:/process-uc1/data/camelyon17 -v  $target_mnt_dir/uc1-results:/process-uc1/results medgift/process-uc1-patch-extraction  bin/cnn --config-file etc/config.ini extract --patients $patients
+docker run --rm -v $target_mnt_dir/camelyon17:/process-uc1/data/camelyon17 -v  $target_mnt_dir/uc1-results:/process-uc1/results medgift/process-uc1-patch-extraction  /bin/bash
 #-------------------------
 
 function cleanup {

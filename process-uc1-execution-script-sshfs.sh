@@ -41,7 +41,7 @@ fi
 
 
 #Mount snetdn via sshfs to target mount dir
-ssh-keyscan -H $ssh_server_host >> ~/.ssh/known_hosts
+ssh-keyscan -p $ssh_server_port_nbr -H $ssh_server_host >> ~/.ssh/known_hosts
 sshfs root@$ssh_server_host:/mnt $target_mnt_dir -o IdentityFile=~/.ssh/id_rsa_process_uc1 -p $ssh_server_port_nbr
 
 #Build Docker image
@@ -53,6 +53,5 @@ echo "Running patch extract for following patients: $patients"
 #docker run --rm -v /$target_mnt_dir/camelyon17:/process-uc1/data/camelyon17 -v  $target_mnt_dir/uc1-results:/process-uc1/results medgift/process-uc1-patch-extraction  bin/cnn --config-file etc/config.ini extract --patients $patients
 docker run --rm -v /$target_mnt_dir/camelyon17:/process-uc1/data/camelyon17 -v  $target_mnt_dir/uc1-results:/process-uc1/results medgift/process-uc1-patch-extraction  /bin/bash
 #-------------------------
-
 
 

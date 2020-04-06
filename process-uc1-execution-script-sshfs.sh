@@ -6,11 +6,10 @@
 # SSHFS VERSION
 #
 # * This script does the following:
-#  - Define lobcder webdav credentials
-#  - Install and configure webdav client
-#  - Mount lobcder webdav to target mount dir (/mnt/lobcder)
+#  - Install and configure sshfs client
+#  - Mount snetdn target mount dir (/mnt/snedtn) via sshfs
 #  - Launch docker container for UC1 (patch extraction)
-#  - Unmount mounted lobcder dir (in order to write cash to remote resource)
+#  - Unmount mounted snetdn dir (in order to write cash to remote resource)
 #
 #
 # * Before executing this script you have to make sure that the private key

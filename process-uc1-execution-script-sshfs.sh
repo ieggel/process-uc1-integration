@@ -39,7 +39,7 @@ fi
 
 
 #Mount snetdn via sshfs to target mount dir
-sshfs root@$ssh_server_host:/mnt $target_mnt_dir -o IdentityFile=/id_rsa_process_uc1 -p $ssh_server_port_nbr
+sshfs root@$ssh_server_host:/mnt $target_mnt_dir -o IdentityFile=~/.ssh/id_rsa_process_uc1 -p $ssh_server_port_nbr
 
 #Build Docker image
 docker build -t medgift/process-uc1-patch-extraction ./docker

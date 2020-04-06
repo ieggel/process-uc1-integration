@@ -20,7 +20,7 @@
 #   - ./process-uc1-execution-script-sshfs.sh
 #******************************************************************************
 
-set -euxo pipefail
+set -euo pipefail
 
 ssh_server_host=sne-dtn-03.vlan7.uvalight.net
 ssh_server_port_nbr=30909

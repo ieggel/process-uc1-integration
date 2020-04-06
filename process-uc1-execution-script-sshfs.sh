@@ -61,3 +61,4 @@ function cleanup {
   sudo umount $target_mnt_dir
 }
 trap cleanup EXIT
+trap cleanup ERROR

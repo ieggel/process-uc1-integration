@@ -28,8 +28,15 @@ target_mnt_dir=/mnt/snedtn
 #Install sshfs client
 sudo apt install -y sshfs
 
-#Create target mount dir
-sudo mkdir -p $target_mnt_dir
+#Create target mount dir if necessary
+if [[ -d "$target_mnt_dir" ]]; then
+    echo "Target mount dir ${target_mnt_dir} already exist. Skip creation."
+else
+    echo "Creating target mount dir ${target_mnt_dir}."
+    sudo mkdir -p $target_mnt_dir
+fi
+
+
 
 #Mount snetdn via sshfs to target mount dir
 sshfs root@$ssh_server_host:/mnt $target_mnt_dir -o IdentityFile=/id_rsa_process_uc1 -p $ssh_server_port_nbr

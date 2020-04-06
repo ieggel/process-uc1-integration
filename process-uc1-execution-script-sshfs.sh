@@ -39,6 +39,8 @@ else
 fi
 
 
+#Add 'user_allow_other' to fuse.conf. This is need so a fuse dir can be specified as docker host mount
+sudo grep -qxF "user_allow_other" /etc/fuse.conf || echo "user_allow_other" | sudo tee -a /etc/fuse.conf
 
 #Mount snetdn via sshfs to target mount dir
 ssh-keyscan -p $ssh_server_port_nbr -H $ssh_server_host >> ~/.ssh/known_hosts

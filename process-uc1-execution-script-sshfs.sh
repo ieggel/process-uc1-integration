@@ -34,6 +34,7 @@ if [[ -d "$target_mnt_dir" ]]; then
 else
     echo "Creating target mount dir ${target_mnt_dir}."
     sudo mkdir -p $target_mnt_dir
+    chown $USER:$USER $target_mnt_dir
 fi
 
 

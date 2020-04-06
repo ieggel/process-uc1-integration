@@ -54,4 +54,8 @@ echo "Running patch extract for following patients: $patients"
 docker run --rm -v /$target_mnt_dir/camelyon17:/process-uc1/data/camelyon17 -v  $target_mnt_dir/uc1-results:/process-uc1/results medgift/process-uc1-patch-extraction  /bin/bash
 #-------------------------
 
-
+function cleanup {
+  echo "Unmounting $target_mnt_dir..."
+  sudo umount $target_mnt_dir
+}
+trap cleanup EXIT

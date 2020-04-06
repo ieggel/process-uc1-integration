@@ -6,6 +6,10 @@ Contains everything needed to build the docker image.
 
 _NOTE:_ process-uc1-execution-script-davfs.sh is outdated. We now do mount via wwebdav anymore bit via sshfs.
 
+## mount-sshfs-snetdn.sh
+
+To use locally only in to mount snetdn via sshfs, e.g. for uploading files. This is not used in the actual process-uc1-execution-script-sshfs.sh.
+
 ## process-uc1-execution-script-sshfs.sh
 
 Script that prepares the VM, launches the docker container for the usecase and cleans up resources after termination.

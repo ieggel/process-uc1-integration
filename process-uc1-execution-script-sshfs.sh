@@ -41,6 +41,7 @@ fi
 
 
 #Mount snetdn via sshfs to target mount dir
+ssh-keyscan -H $ssh_server_host >> ~/.ssh/known_hosts
 sshfs root@$ssh_server_host:/mnt $target_mnt_dir -o IdentityFile=~/.ssh/id_rsa_process_uc1 -p $ssh_server_port_nbr
 
 #Build Docker image

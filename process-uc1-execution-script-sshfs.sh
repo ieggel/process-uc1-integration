@@ -44,7 +44,7 @@ sudo grep -qxF "user_allow_other" /etc/fuse.conf || echo "user_allow_other" | su
 
 #Mount snetdn via sshfs to target mount dir
 ssh-keyscan -p $ssh_server_port_nbr -H $ssh_server_host >> ~/.ssh/known_hosts
-sshfs root@$ssh_server_host:/mnt $target_mnt_dir -o IdentityFile=~/.ssh/id_rsa_process_uc1 -p $ssh_server_port_nbr
+sshfs -o allow_other root@$ssh_server_host:/mnt $target_mnt_dir -o IdentityFile=~/.ssh/id_rsa_process_uc1 -p $ssh_server_port_nbr
 
 #Build Docker image
 docker build -t medgift/process-uc1-patch-extraction ./docker

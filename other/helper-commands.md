@@ -34,3 +34,42 @@ awk '{print $1}' | xargs -n 1 -I '{}' bash -c $'md5sum=$(md5sum {} | awk \'{ pri
 $ Enter
 $ Ctrl+D
 ```
+
+## Run script on VM (147.213.76.127)
+
+### Copy private key for snedtn sshfs from local to VM
+
+Make sure to also provide the correct private key for the VM.
+
+```bash
+$ scp -i ~/.ssh/id_rsa_linux ~/.ssh/id_rsa_process_uc1 ubuntu@147.213.76.127:/home/ubuntu/.ssh/
+```
+### Connect to VM
+
+Make sure to provide the correct private key.
+
+```bash
+$ ssh -i ~/.ssh/id_rsa_linux ubuntu@147.213.76.127
+```
+
+### Clone this project from git
+
+```bash
+$ cd ~/
+$ git clone https://github.com/ieggel/process-uc1-integration.git
+```
+
+### Test Run execution script on VM
+
+Consider using byobu in order to continue running the process even when quitting ssh session.
+
+```bash
+$ byobu
+````
+
+Then execute:
+
+```bash
+$ cd /home/ubuntu/process-uc1-integration
+$ ./process-uc1-execution-script-sshfs.sh
+```

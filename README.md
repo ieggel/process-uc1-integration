@@ -4,8 +4,6 @@
 
 Contains everything needed to build the docker image.
 
-_NOTE:_ process-uc1-execution-script-davfs.sh is outdated. We now do mount via webdav anymore bit via sshfs.
-
 ## mount-sshfs-snetdn.sh
 
 To use locally only in to mount snetdn via sshfs, e.g. for uploading files. This is not used in the actual process-uc1-execution-script-sshfs.sh.
@@ -29,13 +27,13 @@ Resource cleanup:
 - Unmounts target mount dir (just to be sure, might flush cache)
 
 
-## install_mount-fstab-lobcder.sh (not used)
+## install_mount-fstab-lobcder.sh
 
 Script that installs davfs2 or, creates mount target dir, creates webdav secrets file for lobcder credentials, creates fstab entry and mounts target dir.
 
 This script is not used in the cloud (or VM), but is rather meant to run locally to mount lobcder.
 
-## process-uc1-execution-script-davfs.sh (not used)
+## process-uc1-execution-script-davfs.sh
 
 Script that prepares the VM, launches the docker container for the usecase and cleans up resources after termination.
 
@@ -53,7 +51,7 @@ Launch docker container:
 Resource cleanup:
 - Unmounts target mount dir (in order to to force cash to be flushed and written to remote resource)
 
-## Copy camelyon dataset files to snedtn
+## Copy camelyon dataset files to snedtn via sshfs
 
 ### Copy camelyon17 files from nas4 to snedtn via sshfs. Filenaes provided via stdnin (one filename per line).
 
@@ -122,9 +120,16 @@ Consider using byobu in order to continue running the process even when quitting
 $ byobu
 ````
 
-Then execute:
+Then execute with sshfs:
 
 ```bash
 $ cd /home/ubuntu/process-uc1-integration
 $ ./process-uc1-execution-script-sshfs.sh
+```
+
+OR with webdav:
+
+```bash
+$ cd /home/ubuntu/process-uc1-integration
+$ ./process-uc1-execution-script-davfs.sh
 ```

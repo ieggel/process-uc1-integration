@@ -15,7 +15,7 @@ image_dirs='centre_0 centre_1 centre_2 centre_3 centre_4 centre_4_new'
 
 new_suffix_image_no_corr_xml='.HAS_NO_XML'
 
-xml_filenames=$( find $xml_dir -type f -iname "$xml_files_suffix" -execdir echo {} ';' )
+xml_filenames=$( find $xml_dir -type f -iname "*$xml_files_suffix" -execdir echo {} ';' )
 
 for image_dir in $image_dirs; do
     imagenames=$( find ${image_dir} -type f -iname "*.tif" -execdir echo {} ';' )

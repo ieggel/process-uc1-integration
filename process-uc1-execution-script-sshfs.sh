@@ -46,12 +46,14 @@ ssh-keyscan -p $ssh_server_port_nbr -H $ssh_server_host >> ~/.ssh/known_hosts
 sshfs -o allow_other root@$ssh_server_host:/mnt $target_mnt_dir -o IdentityFile=~/.ssh/id_rsa_process_uc1 -p $ssh_server_port_nbr
 
 #Build Docker image
-docker build -t medgift/process-uc1-patch-extraction ./docker
+#Pass random number for REDO_CLONE arg. This triggers a new clone of the git repo
+# where (REDO_CLONE previous)!= (REDO_CLONE_current)
+docker build --build-arg="REDO_CLONE=${RANDOM}" -t medgift/process-uc1-patch-extraction ./docker
 
 #--LAUNCH DOCKER CONTAINER, OVERRIDE DEFAULT COMMAND BECAUSE WE WANT TO PROVIDE SPECIFIC PATIENTS
-patients=$(ls $target_mnt_dir/camelyon17/lesion_annotations | xargs -I '{}' basename '{}' .xml | tr '\n' ' ')
+patients=$(ls $target_mnt_dir/camelyon17/working_subset/lesion_annotations | xargs -I '{}' basename '{}' .xml | tr '\n' ' ')
 echo "Running patch extract for following patients: $patients"
-docker run --rm -v $target_mnt_dir/camelyon17:/process-uc1/data/camelyon17 -v  $target_mnt_dir/uc1-results:/process-uc1/results medgift/process-uc1-patch-extraction  bin/cnn --config-file etc/config.ini extract --patients $patients
+docker run --rm -v $target_mnt_dir/camelyon17/working_subset:/process-uc1/data/camelyon17 -v  $target_mnt_dir/uc1-results:/process-uc1/results medgift/process-uc1-patch-extraction  bin/cnn --config-file etc/config.ini extract --patients $patients
 # below => /bin/bash for debugging:
 #docker run -it --rm -v $target_mnt_dir/camelyon17:/process-uc1/data/camelyon17 -v  $target_mnt_dir/uc1-results:/process-uc1/results medgift/process-uc1-patch-extraction  /bin/bash
 #-------------------------

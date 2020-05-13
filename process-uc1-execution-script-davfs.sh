@@ -41,7 +41,7 @@ sudo apt install -y davfs2
 sudo grep -qxF "${WEBDAV_SERVER_URL} ${WEBDAV_USERNAME} ${WEBDAV_PASSWORD}" /etc/davfs2/secrets || echo "${WEBDAV_SERVER_URL} ${WEBDAV_USERNAME} ${WEBDAV_PASSWORD}" | sudo tee -a /etc/davfs2/secrets >/dev/null
 
 #Increase davfs2 cache size to 10GB
-#(davfs2 fully downloads each file that is accessed to a cache dir, if cache size is not big enough, redownload will be triggered indefinitely)
+#(davfs2 fully downloads each file that is accessed to a cache wdir, if cache size is not big enough, redownload will be triggered indefinitely)
 sudo grep -qxF "cache_size	15000" /etc/davfs2/davfs2.conf || echo "cache_size	15000" | sudo tee -a /etc/davfs2/davfs2.conf
 
 #Change permissions for secrets file (only visible to root)
@@ -54,7 +54,9 @@ sudo mkdir -p /mnt/lobcder
 sudo mount -t davfs "$WEBDAV_SERVER_URL" /mnt/lobcder
 
 #Build Docker image
-docker build -t medgift/process-uc1-patch-extraction ./docker
+#Pass random number for REDO_CLONE arg. This triggers a new clone of the git repo
+# where (REDO_CLONE previous)!= (REDO_CLONE_current)
+docker build --build-arg="REDO_CLONE=${RANDOM}" -t medgift/process-uc1-patch-extraction ./docker
 
 #--LAUNCH DOCKER CONTAINER, OVERRIDE DEFAULT COMMAND BECAUSE WE WANT TO PROVIDE SPECIFIC PATIENTS
 #patients=$(ls /mnt/lobcder/snedtn/camelyon17/lesion_annotations | xargs -I '{}' basename '{}' .xml | tr '\n' ' ')
@@ -62,7 +64,7 @@ docker build -t medgift/process-uc1-patch-extraction ./docker
 #Execute with patient list
 #docker run --rm -v /mnt/lobcder/snedtn/camelyon17:/process-uc1/data/camelyon17 -v  /mnt/lobcder/snedtn/uc1-results:/process-uc1/results medgift/process-uc1-patch-extraction  bin/cnn --config-file etc/config.ini extract --patients $patients
 #Execute with all images
-docker run --rm -v /mnt/lobcder/snedtn/camelyon17:/process-uc1/data/camelyon17 -v  /mnt/lobcder/snedtn/uc1-results:/process-uc1/results medgift/process-uc1-patch-extraction  bin/cnn --config-file etc/config.ini extract
+docker run --rm -v /mnt/lobcder/snedtn/camelyon17/working_subset:/process-uc1/data/camelyon17 -v  /mnt/lobcder/snedtn/uc1-results:/process-uc1/results medgift/process-uc1-patch-extraction  bin/cnn --config-file etc/config.ini extract
 # Mount code dir for debugging
 #docker run --rm -v /mnt/lobcder/snedtn/camelyon17:/process-uc1/data/camelyon17 -v  /mnt/lobcder/snedtn/uc1-results:/process-uc1/results -v /home/ivan/code/PROCESS/PROCESS_UC1:/process-uc1/code/PROCESS_UC1 medgift/process-uc1-patch-extraction  bin/cnn --config-file etc/config.ini extract --patients $patients
 

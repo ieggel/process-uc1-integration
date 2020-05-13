@@ -37,27 +37,32 @@ RUN mkdir -p "$C_BASE_CODE_DIR"
 
 
 
-# Clone GitHub repo
-#---------------------------
-WORKDIR "$C_BASE_CODE_DIR"
-RUN git clone "$CODE_GITHUB_URL"
-
-
 
 # Override requirements.txt with adapted one from host.
 #---------------------------
-WORKDIR "$C_UC1_CODE_DIR"
-COPY "$H_PIP_REQUIREMENTS" requirements.txt
-
+COPY "$H_PIP_REQUIREMENTS" /requirements.txt
 
 
 # Install python libs specified in requirements.txt
 #---------------------------
-RUN pip install -r requirements.txt --no-cache-dir
+RUN pip install -r /requirements.txt --no-cache-dir
 
 
+# Clone GitHub repo. 
+# Make sure this step is reexecuted each time a new REDO_CLONE value is provided as build argument.
+# This is useful for having the code in the container up to date
+#---------------------------
+ARG CODE_GIT_BRANCH=origin/deploy
+ARG REDO_CLONE=no
+WORKDIR "$C_BASE_CODE_DIR"
+RUN git clone "$CODE_GITHUB_URL"
+WORKDIR "$C_UC1_CODE_DIR"
 
-# Override config file from from host to container to path C_FULL_CODE_DIR/config.ini.
+# Checkout specific branch
+RUN git checkout "$CODE_GIT_BRANCH"
+
+
+# Override config file from from host to container
 #---------------------------
 WORKDIR "$C_UC1_CODE_DIR"
 COPY "$H_CONFIG_INI" etc/config.ini 

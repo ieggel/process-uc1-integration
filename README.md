@@ -27,13 +27,13 @@ Resource cleanup:
 - Unmounts target mount dir (just to be sure, might flush cache)
 
 
-## install_mount-fstab-lobcder.sh
+## install_mount-fstab-lobcder.sh (deprecated)
 
 Script that installs davfs2 or, creates mount target dir, creates webdav secrets file for lobcder credentials, creates fstab entry and mounts target dir.
 
 This script is not used in the cloud (or VM), but is rather meant to run locally to mount lobcder.
 
-## process-uc1-execution-script-davfs.sh
+## process-uc1-execution-script-davfs.sh (deprecated)
 
 Script that prepares the VM, launches the docker container for the usecase and cleans up resources after termination.
 
@@ -127,7 +127,7 @@ $ cd /home/ubuntu/process-uc1-integration
 $ ./process-uc1-execution-script-sshfs.sh
 ```
 
-OR with webdav:
+OR with webdav (depreacted):
 
 ```bash
 $ cd /home/ubuntu/process-uc1-integration

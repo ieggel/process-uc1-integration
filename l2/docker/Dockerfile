@@ -19,12 +19,14 @@ ARG H_DATA_CONFIG_FILE=./data-config.cfg
 
 # Install libs/applications
 #---------------------------
+ARG DEBIAN_FRONTEND=noninteractive
 RUN apt update && apt install -y \
 	openslide-tools \
     libcurl4-openssl-dev \
 	libssl-dev \
 	libsm6 \
-	libxext6
+	libxext6 \
+    python-tk
 
 
 
@@ -49,7 +51,7 @@ RUN pip install -r /requirements.txt --no-cache-dir
 # Make sure this step is reexecuted each time a new REDO_CLONE value is provided as build argument.
 # This is useful for having the code in the container up to date
 #---------------------------
-ARG CODE_GIT_BRANCH=origin/horovod
+ARG CODE_GIT_BRANCH=origin/horovod-ivan
 ARG REDO_CLONE=no
 WORKDIR "$C_BASE_CODE_DIR"
 RUN git clone "$CODE_GITHUB_URL"
@@ -66,6 +68,8 @@ COPY "$H_CONFIG_FILE" lib/config.ini
 COPY "$H_DATA_CONFIG_FILE" data/data.cfg
 
 
-# Run process-uc1 patch extraction with default: process all patients. This CMD  can be overriden at runtime.
+# Run process uc1 l2
+# Argument (experiment type) has to be passed as command when running the container
+# E.g. docker run <this_imagename> <EXPERIMENT_TYPE>
 #---------------------------
-CMD /bin/bash hvd_train.sh my-exp
+ENTRYPOINT ["/bin/bash", "hvd_train.sh"]

@@ -20,7 +20,7 @@
 
 set -euo pipefail
 
-
+experiment_type="exp-$(date +'%Y-%m-%d_%H_%M_%S')"
 
 
 #Build Docker image
@@ -28,7 +28,13 @@ set -euo pipefail
 #where (REDO_CLONE previous)!= (REDO_CLONE_current)
 docker build --build-arg="REDO_CLONE=${RANDOM}" -t medgift/process-uc1-training ./docker
 
-#--LAUNCH DOCKER CONTAINER,elyon17/working_subset:/process-uc1/ data/camelyon17 -v  $target_mnt_dir/uc1-results:/process-uc1/results medgift/process-uc1-patch-extraction  bin/cnn --config-file etc/config.ini extract --patients $patients
-docker run --rm -v /mnt/nas2/results_00_TEST-IVAN:/results -v /mnt/nas2/results/00_TEST-IVAN/results:/code/PROCESS_L2/results medgift/process-uc1-training
+#--LAUNCH DOCKER CONTAINER
+docker run \
+--gpus all \
+--rm \
+-v /mnt/nas2/results/00_TEST-IVAN:/results \
+-v /mnt/nas2/results/00_TEST-IVAN/results:/code/PROCESS_L2/results \
+medgift/process-uc1-training \
+$experiment_type
 #-------------------------
 

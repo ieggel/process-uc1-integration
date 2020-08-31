@@ -72,4 +72,4 @@ COPY "$H_DATA_CONFIG_FILE" data/data.cfg
 # Argument (experiment type) has to be passed as command when running the container
 # E.g. docker run <this_imagename> <EXPERIMENT_TYPE>
 #---------------------------
-ENTRYPOINT ["/bin/bash", "hvd_train.sh"]
+#ENTRYPOINT ["/bin/bash", "hvd_train.sh"]

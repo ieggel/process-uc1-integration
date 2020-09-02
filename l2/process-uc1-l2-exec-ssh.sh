@@ -49,14 +49,8 @@ sshfs -o allow_other root@$ssh_server_host:/mnt $target_mnt_dir -o IdentityFile=
 #where (REDO_CLONE previous)!= (REDO_CLONE_current)
 docker build --build-arg="REDO_CLONE=${RANDOM}" -t medgift/process-uc1-training ./docker
 
-#--LAUNCH DOCKER CONTAINER, OVERRIDE DEFAULT COMMAND BECAUSE WE WANT TO PROVIDE SPECIFIC PATIENTS
-patients=$(ls $target_mnt_dir/camelyon17/working_subset/lesion_annotations | xargs -I '{}' basename '{}' .xml | tr '\n' ' ')
-echo "Running patch extract for following patients: $patients"
-#docker run --rm -v $target_mnt_dir/camelyon17/working_subset:/process-uc1/data/camelyon17 -v  $target_mnt_dir/uc1-results:/process-uc1/results medgift/process-uc1-patch-extraction  bin/cnn --config-file etc/config.ini extract --patients $patients
-#Method linear and windws 0 100:
-docker run --rm -v $target_mnt_dir/camelyon17/working_subset:/process-uc1/data/camelyon17 -v  $target_mnt_dir/uc1-results:/process-uc1/results medgift/process-uc1-patch-extraction  bin/cnn --config-file etc/config.ini --method=linear --window 0 100 extract --patients $patients
-# below => /bin/bash for debugging:
-#docker run -it --rm -v $target_mnt_dir/camelyon17:/process-uc1/data/camelyon17 -v  $target_mnt_dir/uc1-results:/process-uc1/results medgift/process-uc1-patch-extraction  /bin/bash
+#--LAUNCH DOCKER CONTAINER (not implemented yet)
+
 #-------------------------
 
 function cleanup {

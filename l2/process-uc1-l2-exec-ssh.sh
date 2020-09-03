@@ -21,7 +21,10 @@ set -euo pipefail
 
 ssh_server_host=sne-dtn-03.vlan7.uvalight.net
 ssh_server_port_nbr=30909
-target_mnt_dir=/mnt/snetdn
+target_mnt_dir="${HOME}/snetdn"
+input_data_dir="${target_mnt_dir}/L2/data"
+output_results_dir="${target_mnt_dir}/L2/results"
+
 
 #Install sshfs client
 sudo apt install -y sshfs
@@ -63,14 +66,19 @@ docker run \
 --network=host \
 --gpus all \
 --rm \
--v /mnt/snetdn/L2:/results \
--v /mnt/snetdn/L2/results:/code/PROCESS_L2/results \
+-v $input_data_dir:/results \
+-v $output_results_dir:/code/PROCESS_L2/results \
 medgift/process-uc1-training \
 /bin/bash hvd_train.sh $experiment_type "$hvd_opts"
 #-------------------------
 
 
-
+function cleanup {
+  echo "Unmounting $target_mnt_dir..."
+  sudo umount $target_mnt_dir
+}
+trap cleanup EXIT
+trap cleanup ERR
 
 
 

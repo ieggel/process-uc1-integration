@@ -27,9 +27,9 @@ docker build --build-arg="REDO_CLONE=${RANDOM}" -t medgift/process-uc1-training 
 #E.g. docker run -it --gpus all --network=host -v /mnt/share/ssh:/root/.ssh horovod:latest \
 #    bash -c "/usr/sbin/sshd -p 12345; sleep infinity
 #Below example for multi host setting including all servers with GPU(s)
-#hvd_opts="-np 7 -H lxhultrafast.hevs.ch:2,lxhevenfaster.hevs.ch:1,lxhdesuto.hevs.ch:4 -p12345 --verbose --network-interface 153.109.124.0/24 --mpi-args=-x NCCL_SOCKET_IFNAME=eno,em"
+hvd_opts="-np 7 -H lxhdesuto.hevs.ch:4,lxhultrafast.hevs.ch:2,lxhevenfaster.hevs.ch:1 -p12345 --verbose --network-interface 153.109.124.0/24 --mpi-args=-x NCCL_SOCKET_IFNAME=eno,em"
 #Below example sor single host setting
-hvd_opts="-np 2 -H localhost:2"
+#hvd_opts="-np 2 -H localhost:2"
 
 #--LAUNCH DOCKER CONTAINER
 docker run \

@@ -41,8 +41,15 @@ fi
 #Add 'user_allow_other' to fuse.conf. This is needed so a fuse dir can be specified as docker host mount
 sudo grep -qxF "user_allow_other" /etc/fuse.conf || echo "user_allow_other" | sudo tee -a /etc/fuse.conf
 
-#Mount snetdn via sshfs to target mount dir
-ssh-keyscan -p $ssh_server_port_nbr -H $ssh_server_host >> ~/.ssh/known_hosts
+
+#Check if snetdn already mounted
+if grep -qs '${$target_mnt_dir} ' /proc/mounts; then
+    echo "Snetdn already mounted."
+else
+    #Mount snetdn via sshfs to target mount dir
+    echo "Mounting snetdn."
+    ssh-keyscan -p $ssh_server_port_nbr -H $ssh_server_host >> ~/.ssh/known_hosts
+fi
 sshfs -o allow_other root@$ssh_server_host:/mnt $target_mnt_dir -o IdentityFile=~/.ssh/id_rsa_process_uc1 -p $ssh_server_port_nbr
 
 experiment_type="exp-$(date +'%Y-%m-%d_%H_%M_%S')"

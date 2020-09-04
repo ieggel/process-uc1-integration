@@ -43,7 +43,7 @@ sudo grep -qxF "user_allow_other" /etc/fuse.conf || echo "user_allow_other" | su
 
 
 #Check if snetdn already mounted
-if grep -qs "${$target_mnt_dir} " /proc/mounts; then
+if grep -qs "${target_mnt_dir} " /proc/mounts; then
     echo "Snetdn already mounted."
 else
     #Mount snetdn via sshfs to target mount dir

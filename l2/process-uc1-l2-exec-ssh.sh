@@ -67,7 +67,7 @@ docker build --build-arg="REDO_CLONE=${RANDOM}" -t medgift/process-uc1-training 
 #When using multiple worker nodes, make sure horovod is running on all of those
 #E.g. docker run -it --gpus all --network=host -v /mnt/share/ssh:/root/.ssh horovod:latest \
 #    bash -c "/usr/sbin/sshd -p 12345; sleep infinity
-hvd_opts="-np 1 -H localhost:1 --verbose"
+hvd_opts="-np 2 -H localhost:2 --verbose"
 
 #--LAUNCH DOCKER CONTAINER
 docker run \

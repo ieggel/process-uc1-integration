@@ -5,6 +5,6 @@
 - /mnt/nas2/results/IntermediateResults/Mara$ `cp -r camnet_models /home/ivan/snedtn/L3/data/IntermediateResults/Mara/`
 - /mnt/nas2/results/IntermediateResults/Mara$ `cp -r imagenet_models /home/ivan/snedtn/L3/data/IntermediateResults/Mara/`
 
+2. Copy SSH key id_rsa_procecc_uc1 to production server ==> makes it possible to connect to snetdn via SSHFS
 
-
-2. Copy SSH key id_rsa_procecc_uc1  ==> makes it possible to connect to snetdn via SSHFS
+3. Make sure the executing user on production server VM has sudo rights and no password 

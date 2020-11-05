@@ -85,7 +85,7 @@ RUN pip install -r /requirements.txt --no-cache-dir
 # Clone GitHub repo. 
 # Make sure this step is reexecuted each time a new REDO_CLONE value is provided as build argument.
 # This is useful for having the code in the container up to date
-ARG CODE_GIT_BRANCH=ivan
+ARG CODE_GIT_BRANCH=master
 ARG REDO_CLONE=no
 WORKDIR "$C_BASE_CODE_DIR"
 RUN git clone "$CODE_GITHUB_URL"

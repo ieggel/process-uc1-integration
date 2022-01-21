@@ -1,5 +1,5 @@
 ipykernel==4.10.1
-ipython==5.9.0
+ipython==7.16.3
 Keras==2.1.6
 keras-importance-sampling==0.9
 matplotlib==2.2.5
